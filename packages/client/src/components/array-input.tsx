@@ -102,7 +102,7 @@ export default function ArrayInput({ title, data, onChange }: ArrayInputProps) {
   return (
     <div className="space-y-2">
       <Label>{title}</Label>
-      <div className="p-2 bg-card rounded border border-input">
+      <div className="p-2 bg-white rounded border border-input">
         <TagList tags={data} onRemove={removeTag} />
         <TagInput
           value={inputValue}

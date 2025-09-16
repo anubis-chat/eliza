@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex-1 w-full overflow-y-auto bg-background">
+      <div className="flex-1 w-full overflow-y-auto bg-white">
         <div className="flex flex-col w-full h-full">
           <Tabs
             value={activeTab}

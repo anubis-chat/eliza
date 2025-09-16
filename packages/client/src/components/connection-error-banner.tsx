@@ -16,7 +16,7 @@ export function ConnectionErrorBanner({ className }: ConnectionErrorBannerProps)
   }
 
   let errorTitle = 'Connection Failed';
-  let errorDescription = 'Please ensure the Eliza server is running and accessible.';
+  let errorDescription = 'Please ensure the Ada server is running and accessible.';
   const isUnauthorized = status === 'unauthorized';
 
   if (error) {
@@ -80,7 +80,7 @@ export function ConnectionErrorBanner({ className }: ConnectionErrorBannerProps)
           </p>
           <div className="mt-2 flex space-x-4">
             <a
-              href="https://eliza.how"
+              href="https://ada.how"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(

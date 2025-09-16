@@ -8,7 +8,7 @@ export default function LogsPage() {
   const [logLevel, setLogLevel] = useState('all');
 
   return (
-    <div className="container mx-auto p-6 h-full flex flex-col">
+    <div className="container mx-auto p-6 h-full flex flex-col bg-white min-h-screen">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">System Logs</h1>
         <div className="flex items-center gap-4">

@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 import tailwindAnimate from 'tailwindcss-animate';
 
 export default {
-  darkMode: ['class'],
+  darkMode: 'class',
   content: ['src/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}'],
   theme: {
     extend: {
@@ -33,6 +33,10 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        ada: {
+          blue: 'hsl(var(--ada-blue))',
+          'blue-foreground': 'hsl(var(--ada-blue-foreground))',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -63,7 +67,9 @@ export default {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        border: 'hsl(var(--border))',
+        border: {
+          DEFAULT: 'hsl(var(--border))',
+        },
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         chart: {

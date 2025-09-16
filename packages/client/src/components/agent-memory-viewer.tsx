@@ -283,7 +283,7 @@ export function AgentMemoryViewer({ agentId, agentName, channelId }: AgentMemory
     const entityName = getEntityName();
 
     return (
-      <div className="border rounded-lg p-4 bg-card hover:bg-accent/5 transition-colors group">
+      <div className="border rounded-lg p-4 bg-white hover:bg-accent/5 transition-colors group">
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">

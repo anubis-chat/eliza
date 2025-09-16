@@ -65,7 +65,7 @@ function ElizaWrapper() {
       <div style={{ width: '100%', height: '100vh', margin: 0, padding: 0 }}>
         <iframe
           src="http://localhost:3000"
-          title="Eliza Client"
+          title="ADA Client"
           style={{
             width: '100%',
             height: '100%',
@@ -113,7 +113,7 @@ function ElizaWrapper() {
         </>
       ) : (
         <>
-          <h2>Starting Eliza Server...</h2>
+          <h2>Starting ADA's Server...</h2>
           <p>Please wait while we start the backend services.</p>
           <div
             style={{

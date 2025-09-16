@@ -14,9 +14,9 @@ export default function NotFound() {
     path.includes('/speech/');
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center bg-white">
       <div className="flex items-center justify-center mb-8">
-        <div className="bg-red-900/20 h-24 w-24 rounded-full flex items-center justify-center">
+        <div className="bg-red-100 h-24 w-24 rounded-full flex items-center justify-center">
           <AlertCircle className="h-14 w-14 text-red-500" />
         </div>
       </div>
@@ -29,7 +29,7 @@ export default function NotFound() {
             <p className="text-lg mb-6 text-muted-foreground">
               The endpoint <span className="font-mono text-red-400">{path}</span> does not exist.
             </p>
-            <div className="bg-red-900/20 border border-red-800/30 rounded-md p-4 mb-8 text-left">
+            <div className="bg-red-100 border border-red-300 rounded-md p-4 mb-8 text-left">
               <h3 className="text-red-400 font-medium mb-2 flex items-center">
                 <AlertCircle className="h-4 w-4 mr-2" />
                 Endpoint Not Found

@@ -31,12 +31,16 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onChat }) => {
   }
 
   const agentIdForNav = agent.id;
-  const agentName = agent.name || 'Unnamed Agent';
+  // Always show 'ADA (Default)' if agent.name is missing or matches 'Eliza (Default)'
+  let agentName = agent.name || 'ADA (Default)';
+  if (typeof agentName === 'string' && agentName.trim().toLowerCase() === 'eliza (default)') {
+    agentName = 'ADA (Default)';
+  }
 
   const description = Array.isArray(agent.bio)
     ? agent.bio.filter(Boolean).join(' ').trim()
     : (typeof agent.bio === 'string' && agent.bio.trim()) ||
-      'Engages with all types of questions and conversations';
+    'Engages with all types of questions and conversations';
   const isActive = agent.status === CoreAgentStatus.ACTIVE;
   const isStarting = isAgentStarting(agent.id);
   const isStopping = isAgentStopping(agent.id);
@@ -90,7 +94,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onChat }) => {
   return (
     <Card
       className={cn(
-        'w-full transition-all bg-card border border-border/50 rounded-sm hover:bg-card/50 cursor-pointer',
+        'w-full transition-all bg-white border border-border/50 rounded-sm hover:bg-gray-50 cursor-pointer',
         isActive ? '' : 'opacity-75'
       )}
       data-testid="agent-card"
@@ -122,9 +126,12 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onChat }) => {
 
         <div className="flex flex-col justify-between h-full">
           <div className="flex items-center gap-4 p-2 h-[90%]">
-            {/* Avatar */}
+            {/* Avatar - always use public folder images or fallback */}
             <Avatar className="h-16 w-16 flex-shrink-0 rounded-sm">
-              <AvatarImage src={getAgentAvatar(agent)} alt={agentName} />
+              <AvatarImage
+                src="/elizaos-icon.png"
+                alt={agentName}
+              />
               <AvatarFallback className="text-lg font-medium rounded-sm">
                 {formatAgentName(agentName)}
               </AvatarFallback>

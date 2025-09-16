@@ -8,8 +8,8 @@ describe('Avatar Component', () => {
   it('renders image correctly', () => {
     cy.mount(
       <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage src="/elizaos-avatar.png" alt="ElizaOS Avatar" />
+        <AvatarFallback>EZ</AvatarFallback>
       </Avatar>
     );
 
@@ -17,20 +17,18 @@ describe('Avatar Component', () => {
     cy.get('[data-testid="avatar-image"]').should(
       'have.attr',
       'src',
-      'https://github.com/shadcn.png'
+      '/elizaos-avatar.png'
     );
-    cy.get('[data-testid="avatar-image"]').should('have.attr', 'alt', '@shadcn');
+    cy.get('[data-testid="avatar-image"]').should('have.attr', 'alt', 'ElizaOS Avatar');
   });
 
   it('shows fallback when image fails to load', () => {
     cy.mount(
       <Avatar>
-        <AvatarImage src="https://broken-image-url.com/404.png" alt="broken" />
+        <AvatarImage src="/not-a-real-image.png" alt="broken" />
         <AvatarFallback>FB</AvatarFallback>
       </Avatar>
     );
-
-    // Wait for image to fail loading
     cy.wait(500);
     cy.get('[data-testid="avatar-fallback"]').should('be.visible');
     cy.get('[data-testid="avatar-fallback"]').should('contain', 'FB');
@@ -42,7 +40,6 @@ describe('Avatar Component', () => {
         <AvatarFallback>JD</AvatarFallback>
       </Avatar>
     );
-
     cy.get('[data-testid="avatar-fallback"]').should('be.visible');
     cy.get('[data-testid="avatar-fallback"]').should('contain', 'JD');
     cy.get('[data-testid="avatar-image"]').should('not.exist');

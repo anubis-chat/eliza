@@ -372,10 +372,10 @@ export default function Chat({
   // Convert AgentWithStatus to Agent, ensuring required fields have defaults
   const targetAgentData: Agent | undefined = agentDataResponse?.data
     ? ({
-        ...agentDataResponse.data,
-        createdAt: agentDataResponse.data.createdAt || Date.now(),
-        updatedAt: agentDataResponse.data.updatedAt || Date.now(),
-      } as Agent)
+      ...agentDataResponse.data,
+      createdAt: agentDataResponse.data.createdAt || Date.now(),
+      updatedAt: agentDataResponse.data.updatedAt || Date.now(),
+    } as Agent)
     : undefined;
 
   const { handleDelete: handleDeleteAgent, isDeleting: isDeletingAgent } = useDeleteAgent(
@@ -675,7 +675,7 @@ export default function Chat({
       updateChatState({ currentDmChannelId: agentDmChannels[0].id });
     }
   }, [agentDmChannels, isLoadingAgentDmChannels, updateChatState]);
-  
+
   // Function to add channelId to URL
   const addChannelIdToUrl = useCallback((channelId: UUID) => {
     if (chatType === ChannelType.DM && contextId && channelId && typeof window !== 'undefined') {
@@ -688,9 +688,9 @@ export default function Chat({
 
   // useEffect to listen for channelId switching and append id to URL
   useEffect(() => {
-  if (chatState.currentDmChannelId) {
-    addChannelIdToUrl(chatState.currentDmChannelId);
-  }
+    if (chatState.currentDmChannelId) {
+      addChannelIdToUrl(chatState.currentDmChannelId);
+    }
   }, [chatState.currentDmChannelId, addChannelIdToUrl]);
 
   // useEffect to handle direct URL navigation with channelId (only runs once on mount)
@@ -1225,6 +1225,10 @@ export default function Chat({
   // Chat header
   const renderChatHeader = () => {
     if (chatType === ChannelType.DM && targetAgentData) {
+      // ADA branding for default agent
+      const isDefault = !targetAgentData.name || targetAgentData.name.trim().toLowerCase() === 'eliza (default)';
+      const displayName = isDefault ? 'ADA (Default)' : targetAgentData.name;
+      const displayAvatar = isDefault ? '/elizaos-icon.png' : getAgentAvatar(targetAgentData);
       return (
         <div className="flex items-center justify-between mb-4 p-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -1233,7 +1237,7 @@ export default function Chat({
                 <Button variant="ghost" size="sm" className="py-6 px-2 flex-shrink-0">
                   <div className="relative flex-shrink-0">
                     <Avatar className="size-4 sm:size-10 border rounded-full">
-                      <AvatarImage src={getAgentAvatar(targetAgentData)} />
+                      <AvatarImage src={displayAvatar} />
                     </Avatar>
                     {targetAgentData?.status === AgentStatus.ACTIVE ? (
                       <Tooltip>
@@ -1257,7 +1261,7 @@ export default function Chat({
                   </div>
                   <div>
                     <h2 className="font-semibold text-lg truncate max-w-[80px] sm:max-w-none">
-                      {targetAgentData?.name || 'Agent'}
+                      {displayName || 'Agent'}
                     </h2>
                   </div>
                   <ChevronDown className="size-4" />
@@ -1352,11 +1356,11 @@ export default function Chat({
                                 <span className="text-xs text-muted-foreground">
                                   {moment(
                                     (typeof channel.metadata?.createdAt === 'string' ||
-                                    typeof channel.metadata?.createdAt === 'number'
+                                      typeof channel.metadata?.createdAt === 'number'
                                       ? channel.metadata.createdAt
                                       : null) ||
-                                      channel.updatedAt ||
-                                      channel.createdAt
+                                    channel.updatedAt ||
+                                    channel.createdAt
                                   ).fromNow()}
                                 </span>
                               </div>

@@ -30,12 +30,12 @@ export default function useVersion() {
       const data = await response.json();
       const latestVersion = data.tag_name;
       return latestVersion;
-    } catch {}
+    } catch { }
   }
 
   const compareVersion = useCallback(async () => {
     try {
-      const latestVersion = await getLatestRelease('elizaos/eliza');
+      const latestVersion = await getLatestRelease('ada-ai/ada');
       const thisVersion = versionInfo?.version;
       if (latestVersion && thisVersion) {
         if (semver.gt(latestVersion.replace('v', ''), thisVersion.replace('v', ''))) {
@@ -44,7 +44,7 @@ export default function useVersion() {
             title: `New version ${latestVersion} is available.`,
             description: 'Visit GitHub for more information.',
             action: (
-              <NavLink to="https://github.com/elizaos/eliza/releases" target="_blank">
+              <NavLink to="https://github.com/ada-ai/ada/releases" target="_blank">
                 <ToastAction altText="Update">Update</ToastAction>
               </NavLink>
             ),

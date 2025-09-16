@@ -23,7 +23,7 @@ import {
   type UUID,
 } from '@elizaos/core';
 import bootstrapPlugin from '@elizaos/plugin-bootstrap';
-import openaiPlugin from '@elizaos/plugin-openai';
+// import openaiPlugin from '@elizaos/plugin-openai'; // Disabled: module not found
 import sqlPlugin, { DatabaseMigrationService, createDatabaseAdapter } from '@elizaos/plugin-sql';
 import * as clack from '@clack/prompts';
 import 'node:crypto';
@@ -45,7 +45,7 @@ const CONSTANTS = {
     SERVER: 'chat-server',
     SOURCE: 'cli',
   },
-  EXIT_COMMANDS: ['quit', 'exit'],
+  EXIT_COMMANDS: ['quit', 'exit'] as string[],
 } as const;
 
 interface AppConfiguration {
@@ -140,7 +140,7 @@ class AgentInitializer {
     };
   }
 
-  private static async setupDatabase(config: AppConfiguration, agentId: UUID): Promise<void> {
+  private static async setupDatabase(config: AppConfiguration, agentId: UUID): Promise<ReturnType<typeof createDatabaseAdapter>> {
     if (!config.postgresUrl && config.pglitePath !== CONSTANTS.DEFAULT_PGLITE_PATH) {
       fs.mkdirSync(config.pglitePath, { recursive: true });
     }
@@ -167,7 +167,7 @@ class AgentInitializer {
   private static createRuntime(character: Character, config: AppConfiguration): AgentRuntime {
     return new AgentRuntime({
       character,
-      plugins: [sqlPlugin, bootstrapPlugin, openaiPlugin],
+      plugins: [sqlPlugin, bootstrapPlugin /*, openaiPlugin*/],
       settings: {
         OPENAI_API_KEY: config.openaiApiKey,
         POSTGRES_URL: config.postgresUrl || undefined,
@@ -241,7 +241,7 @@ class AgentInitializer {
 // ============================================================================
 
 class MessageProcessor {
-  constructor(private session: ChatSession) {}
+  constructor(private session: ChatSession) { }
 
   private createMessageMemory(userInput: string): Memory {
     return createMessageMemory({
@@ -289,7 +289,7 @@ class ChatInterface {
   constructor(
     private messageProcessor: MessageProcessor,
     private character: Character
-  ) {}
+  ) { }
 
   private displayWelcome(): void {
     clack.intro('🤖 ElizaOS Interactive Chat');

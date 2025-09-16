@@ -35,7 +35,7 @@ const TestAgentCard: React.FC<{
         <img
           data-testid="agent-avatar"
           src={
-            typeof agent.settings.avatar === 'string' ? agent.settings.avatar : '/elizaos-icon.png'
+            typeof agent.settings.avatar === 'string' ? agent.settings.avatar : '/elizaos-icon.svg'
           }
           alt={agentName}
         />

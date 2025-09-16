@@ -13,7 +13,7 @@ export default function AgentDetailsPanel({ agent }: AgentDetailsPanelProps) {
   const isActive = agent.status === AgentStatus.ACTIVE;
   // Extract avatar as string, handling various types
   const avatarUrl =
-    typeof agent.settings?.avatar === 'string' ? agent.settings.avatar : '/elizaos-icon.png';
+    typeof agent.settings?.avatar === 'string' ? agent.settings.avatar : '/ada-logo.svg';
 
   return (
     <div className="h-full flex flex-col bg-background" data-testid="agent-details">
