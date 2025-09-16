@@ -13,7 +13,7 @@ export default function AgentSettingsRoute() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="flex items-center justify-center h-full bg-white min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -21,7 +21,7 @@ export default function AgentSettingsRoute() {
 
   if (!agentData?.data) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-4">
+      <div className="flex flex-col items-center justify-center h-full gap-4 bg-white min-h-screen">
         <p className="text-muted-foreground">Agent not found</p>
         <Button onClick={() => navigate('/')}>Back to Home</Button>
       </div>
@@ -39,9 +39,9 @@ export default function AgentSettingsRoute() {
   } as Agent;
 
   return (
-    <div className="flex w-full justify-center px-4 sm:px-6 overflow-y-auto">
+    <div className="flex w-full justify-center px-4 sm:px-6 overflow-y-auto bg-white min-h-screen">
       <div className="w-full md:max-w-4xl py-6">
-        <AgentSettings agent={agent} agentId={agentId as UUID} onSaveComplete={() => {}} />
+        <AgentSettings agent={agent} agentId={agentId as UUID} onSaveComplete={() => { }} />
       </div>
     </div>
   );

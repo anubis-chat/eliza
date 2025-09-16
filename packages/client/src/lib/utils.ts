@@ -133,7 +133,7 @@ export const getAgentAvatar = (
     return AGENT_AVATAR_PLACEHOLDERS[index];
   }
   // Fallback if no ID or other issue, or if AGENT_AVATAR_PLACEHOLDERS is empty
-  return '/elizaos-icon.png';
+  return '/ada-logo.svg';
 };
 
 export const generateGroupName = (

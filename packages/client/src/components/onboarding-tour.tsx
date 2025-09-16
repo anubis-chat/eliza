@@ -14,9 +14,9 @@ export default function OnboardingTour() {
     {
       target: '.sidebar-logo',
       content:
-        'Welcome to ElizaOS! This is your gateway to creating and managing intelligent AI agents.',
+        'Welcome to Ada! This is your gateway to creating and managing intelligent AI agents.',
       disableBeacon: true,
-      title: 'Welcome to ElizaOS',
+      title: 'Welcome to Ada',
     },
     {
       target: '.sidebar-create-button',
@@ -43,7 +43,7 @@ export default function OnboardingTour() {
     },
     {
       target: '.sidebar-connection-status',
-      content: 'This indicator shows your connection status to the ElizaOS server.',
+      content: 'This indicator shows your connection status to the Ada server.',
       title: 'Connection Status',
     },
     {

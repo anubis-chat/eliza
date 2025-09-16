@@ -118,7 +118,7 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
         <CollapsibleTrigger asChild>
           <Button
             variant="ghost"
-            className="bg-background h-auto w-full justify-between rounded-b-none px-3 py-2 font-normal"
+            className="bg-white h-auto w-full justify-between rounded-b-none px-3 py-2 font-normal"
           >
             <div className="flex items-center gap-2">
               {getStateIcon()}
@@ -134,11 +134,11 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
             'data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down overflow-hidden'
           )}
         >
-          <div className="bg-background space-y-3 p-3">
+          <div className="bg-white space-y-3 p-3">
             {input && Object.keys(input).length > 0 && (
               <div>
                 <h4 className="text-muted-foreground mb-2 text-sm font-medium">Input</h4>
-                <div className="bg-background rounded border p-2 font-mono text-sm">
+                <div className="bg-white rounded border p-2 font-mono text-sm">
                   {Object.entries(input).map(([key, value]) => (
                     <div key={key} className="mb-1">
                       <span className="text-muted-foreground">{key}:</span>{' '}
@@ -152,7 +152,7 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
             {output && (
               <div>
                 <h4 className="text-muted-foreground mb-2 text-sm font-medium">Output</h4>
-                <div className="bg-background max-h-60 overflow-auto rounded border p-2 font-mono text-sm">
+                <div className="bg-white max-h-60 overflow-auto rounded border p-2 font-mono text-sm">
                   <pre className="whitespace-pre-wrap">{formatValue(output)}</pre>
                 </div>
               </div>
@@ -161,7 +161,7 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
             {state === 'output-error' && toolPart.errorText && (
               <div>
                 <h4 className="mb-2 text-sm font-medium text-red-500">Error</h4>
-                <div className="bg-background rounded border border-red-200 p-2 text-sm dark:border-red-950 dark:bg-red-900/20">
+                <div className="bg-white rounded border border-red-200 p-2 text-sm dark:border-red-950 dark:bg-red-900/20">
                   {toolPart.errorText}
                 </div>
               </div>

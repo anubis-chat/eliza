@@ -60,7 +60,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group /*, onEdit */ }) => {
   return (
     <>
       <Card
-        className="w-full transition-all bg-card border border-border/50 rounded-sm"
+        className="w-full transition-all bg-white border border-border/50 rounded-sm"
         data-testid="agent-card"
       >
         <CardContent className="p-0 relative h-full">

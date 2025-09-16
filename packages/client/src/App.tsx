@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -11,6 +11,15 @@ import OnboardingTour from './components/onboarding-tour';
 import { Toaster } from './components/ui/toaster';
 import { TooltipProvider } from './components/ui/tooltip';
 import { AuthProvider } from './context/AuthContext';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import {
+  ConnectionProvider as SolanaConnectionProvider,
+  WalletProvider
+} from '@solana/wallet-adapter-react';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
+import { useMemo } from 'react';
+import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import '@solana/wallet-adapter-react-ui/styles.css';
 import { ConnectionProvider, useConnection } from './context/ConnectionContext';
 import { STALE_TIMES } from './hooks/use-query-hooks';
 import useVersion from './hooks/use-version';
@@ -27,6 +36,7 @@ import { Button } from './components/ui/button';
 import CreateGroupPage from './routes/group-new';
 import AgentSettingsRoute from './routes/agent-settings';
 import clientLogger from '@/lib/logger';
+import Landing from './routes/landing';
 
 // Create a query client with optimized settings
 const queryClient = new QueryClient({
@@ -101,6 +111,10 @@ function AppContent() {
   return (
     <TooltipProvider delayDuration={0}>
       <SidebarProvider>
+        {/* Desktop hamburger menu for sidebar toggle */}
+        <div className="hidden md:block fixed top-4 left-4 z-50">
+          <SidebarTrigger />
+        </div>
         <AppSidebar refreshHomePage={refreshHomePage} />
         <SidebarInset className="h-screen flex flex-col md:ml-72 overflow-hidden">
           {/* Mobile menu button */}
@@ -124,7 +138,8 @@ function AppContent() {
           </div>
           <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
             <Routes>
-              <Route path="/" element={<Home key={homeKey} />} />
+              <Route path="/" element={<Landing />} />
+              <Route path="/app/*" element={<Home key={homeKey} />} />
               <Route
                 path="chat/:agentId/:channelId"
                 element={
@@ -157,7 +172,7 @@ function AppContent() {
               <Route
                 path="/logs"
                 element={
-                  <div className="flex w-full justify-center">
+                  <div className="flex w-full justify-center bg-white min-h-screen">
                     <div className="w-full md:max-w-4xl">
                       <div className="flex items-center justify-between mb-4">
                         <h2 className="text-2xl p-4 font-bold">System Logs</h2>
@@ -178,7 +193,7 @@ function AppContent() {
               <Route
                 path="settings/"
                 element={
-                  <div className="flex w-full justify-center overflow-y-auto">
+                  <div className="flex w-full justify-center overflow-y-auto bg-white min-h-screen">
                     <div className="w-full md:max-w-4xl">
                       <EnvSettings />
                     </div>
@@ -199,22 +214,37 @@ function AppContent() {
 
 // Main App component setting up providers
 function App() {
+  // Solana wallet setup
+  const network = WalletAdapterNetwork.Mainnet;
+  const endpoint = 'https://api.mainnet-beta.solana.com';
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <div
-        className="dark antialiased font-sans"
-        style={{
-          colorScheme: 'dark',
-        }}
-      >
-        <BrowserRouter>
-          <AuthProvider>
-            <ConnectionProvider>
-              <AppContent />
-            </ConnectionProvider>
-          </AuthProvider>
-        </BrowserRouter>
-      </div>
+      <SolanaConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <div
+              className="dark antialiased font-sans"
+              style={{
+                colorScheme: 'dark',
+              }}
+            >
+              <BrowserRouter>
+                <AuthProvider>
+                  <ConnectionProvider>
+                    {/* Wallet connect button at the top right */}
+                    <div className="flex justify-end p-4">
+                      <WalletMultiButton className="!bg-primary !text-primary-foreground !rounded-md !shadow-md hover:!bg-primary/90 transition-all" />
+                    </div>
+                    <AppContent />
+                  </ConnectionProvider>
+                </AuthProvider>
+              </BrowserRouter>
+            </div>
+          </WalletModalProvider>
+        </WalletProvider>
+      </SolanaConnectionProvider>
     </QueryClientProvider>
   );
 }

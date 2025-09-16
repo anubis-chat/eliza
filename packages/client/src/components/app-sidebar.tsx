@@ -109,13 +109,13 @@ const AgentRow = ({
         isActive={active}
         className="px-2 py-2 my-1 h-full rounded justify-between cursor-pointer"
       >
-        <span className="text-base truncate max-w-36">{agent.name}</span>
+        <span className="text-base truncate max-w-36">{!agent.name || agent.name.trim().toLowerCase() === 'eliza (default)' ? 'ADA (Default)' : agent.name}</span>
         <div className="flex items-center">
           <div className="relative">
             <Avatar className="h-6 w-6 rounded-full">
-              <AvatarImage src={getAgentAvatar(agent)} alt={agent.name || 'avatar'} />
+              <AvatarImage src="/elizaos-icon.png" alt={agent.name || 'avatar'} />
               <AvatarFallback className="rounded-full">
-                {formatAgentName(agent.name || '')}
+                {formatAgentName((!agent.name || agent.name.trim().toLowerCase() === 'eliza (default)') ? 'ADA (Default)' : agent.name || '')}
               </AvatarFallback>
             </Avatar>
             <span
@@ -572,7 +572,7 @@ export function AppSidebar({
     <>
       <Sidebar
         className={cn(
-          'bg-background border-r overflow-hidden',
+          'bg-white border-r overflow-hidden',
           isMobile ? 'p-3 pt-12 w-full h-full' : 'p-4 w-72 fixed left-0 top-0 z-40 h-screen',
           !isMobile && 'hidden md:flex md:flex-col'
         )}
@@ -591,8 +591,8 @@ export function AppSidebar({
                 >
                   <div className="flex flex-col pt-2 gap-1 items-start justify-center">
                     <img
-                      alt="elizaos-logo"
-                      src="/elizaos-logo-light.png"
+                      alt="elizaos-icon"
+                      src="/elizaos-icon.png"
                       className="w-32 max-w-full"
                     />
                     <span className="text-xs font-mono text-muted-foreground">v{version}</span>
@@ -642,7 +642,7 @@ export function AppSidebar({
         {/* ---------- footer ---------- */}
         <SidebarFooter className="px-2 py-4">
           <SidebarMenu>
-            <FooterLink to="https://eliza.how/" Icon={Book} label="Documentation" />
+            <FooterLink to="https://ada.how/" Icon={Book} label="Documentation" />
             <FooterLink to="/logs" Icon={TerminalIcon} label="Logs" />
             <FooterLink to="/settings" Icon={Cog} label="Settings" />
             <ConnectionStatus />

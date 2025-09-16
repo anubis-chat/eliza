@@ -36,44 +36,44 @@ export default function AgentRoute() {
 
   const agentFromHook: Agent | undefined = agentDataResponse?.data
     ? ({
-        ...(agentDataResponse.data as AgentWithStatus),
-        status:
-          agentDataResponse.data.status === 'active'
-            ? CoreAgentStatusEnum.ACTIVE
-            : agentDataResponse.data.status === 'inactive'
-              ? CoreAgentStatusEnum.INACTIVE
-              : CoreAgentStatusEnum.INACTIVE,
-        username: agentDataResponse.data.username || agentDataResponse.data.name || 'Unknown',
-        bio: agentDataResponse.data.bio || '',
-        messageExamples: agentDataResponse.data.messageExamples || [],
-        postExamples: agentDataResponse.data.postExamples || [],
-        topics: agentDataResponse.data.topics || [],
-        adjectives: agentDataResponse.data.adjectives || [],
-        knowledge: agentDataResponse.data.knowledge || [],
-        plugins: agentDataResponse.data.plugins || [],
-        settings: agentDataResponse.data.settings || {},
-        secrets: (agentDataResponse.data as any).secrets || {},
-        style: agentDataResponse.data.style || {},
-        templates: agentDataResponse.data.templates || {},
-        enabled:
-          typeof agentDataResponse.data.enabled === 'boolean'
-            ? agentDataResponse.data.enabled
-            : true,
-        createdAt:
-          typeof agentDataResponse.data.createdAt === 'number'
-            ? agentDataResponse.data.createdAt
-            : Date.now(),
-        updatedAt:
-          typeof agentDataResponse.data.updatedAt === 'number'
-            ? agentDataResponse.data.updatedAt
-            : Date.now(),
-      } as Agent)
+      ...(agentDataResponse.data as AgentWithStatus),
+      status:
+        agentDataResponse.data.status === 'active'
+          ? CoreAgentStatusEnum.ACTIVE
+          : agentDataResponse.data.status === 'inactive'
+            ? CoreAgentStatusEnum.INACTIVE
+            : CoreAgentStatusEnum.INACTIVE,
+      username: agentDataResponse.data.username || agentDataResponse.data.name || 'Unknown',
+      bio: agentDataResponse.data.bio || '',
+      messageExamples: agentDataResponse.data.messageExamples || [],
+      postExamples: agentDataResponse.data.postExamples || [],
+      topics: agentDataResponse.data.topics || [],
+      adjectives: agentDataResponse.data.adjectives || [],
+      knowledge: agentDataResponse.data.knowledge || [],
+      plugins: agentDataResponse.data.plugins || [],
+      settings: agentDataResponse.data.settings || {},
+      secrets: (agentDataResponse.data as any).secrets || {},
+      style: agentDataResponse.data.style || {},
+      templates: agentDataResponse.data.templates || {},
+      enabled:
+        typeof agentDataResponse.data.enabled === 'boolean'
+          ? agentDataResponse.data.enabled
+          : true,
+      createdAt:
+        typeof agentDataResponse.data.createdAt === 'number'
+          ? agentDataResponse.data.createdAt
+          : Date.now(),
+      updatedAt:
+        typeof agentDataResponse.data.updatedAt === 'number'
+          ? agentDataResponse.data.updatedAt
+          : Date.now(),
+    } as Agent)
     : undefined;
 
-  if (!agentId) return <div className="p-4">Agent ID not provided.</div>;
+  if (!agentId) return <div className="p-4 bg-white min-h-screen">Agent ID not provided.</div>;
   if (isLoadingAgent || !agentFromHook)
     return (
-      <div className="p-4 flex items-center justify-center h-full">
+      <div className="p-4 flex items-center justify-center h-full bg-white min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -91,9 +91,13 @@ export default function AgentRoute() {
     clientLogger.info('[AgentRoute] Agent is not active, rendering inactive state UI', {
       agentName: agentFromHook?.name,
     });
+    // Determine ADA branding for default agent
+    const isDefault = !agentFromHook.name || agentFromHook.name.trim().toLowerCase() === 'eliza (default)';
+    const displayName = isDefault ? 'ADA (Default)' : agentFromHook.name;
     return (
-      <div className="flex flex-col items-center justify-center h-full w-full p-8 text-center">
-        <h2 className="text-2xl font-semibold mb-4">{agentFromHook.name} is not active.</h2>
+      <div className="flex flex-col items-center justify-center h-full w-full p-8 text-center bg-white min-h-screen">
+        <img src="/elizaos-icon.png" alt="ADA Icon" className="w-20 h-20 mb-4 mx-auto" />
+        <h2 className="text-2xl font-semibold mb-4">{displayName} is not active.</h2>
         <p className="text-muted-foreground mb-6">Press the button below to start this agent.</p>
         <div className="flex gap-3">
           <Button onClick={() => navigate(`/settings/${agentId}`)} variant="outline" size="lg">
@@ -118,11 +122,13 @@ export default function AgentRoute() {
   });
 
   return (
-    <ChatComponent
-      key={`${agentId}-${channelId || 'no-dm-channel'}`}
-      chatType={ChannelType.DM}
-      contextId={agentId}
-      initialDmChannelId={channelId}
-    />
+    <div className="bg-white min-h-screen">
+      <ChatComponent
+        key={`${agentId}-${channelId || 'no-dm-channel'}`}
+        chatType={ChannelType.DM}
+        contextId={agentId}
+        initialDmChannelId={channelId}
+      />
+    </div>
   );
 }

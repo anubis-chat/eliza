@@ -37,7 +37,7 @@ export default function ConnectionStatus() {
         description: (
           <div className="flex items-center gap-2">
             <CheckCircle className="h-4 w-4 text-green-500" />
-            <span>Successfully reconnected to the Eliza server.</span>
+            <span>Successfully reconnected to the Ada server.</span>
           </div>
         ),
       });
@@ -45,7 +45,7 @@ export default function ConnectionStatus() {
       // Transition from connected to error/unauthorized
       toast({
         title: 'Connection Lost',
-        description: 'Attempting to reconnect to the Eliza server...',
+        description: 'Attempting to reconnect to the Ada server...',
         variant: 'destructive',
       });
     }
@@ -136,13 +136,13 @@ export default function ConnectionStatus() {
               >
                 {getErrorMessage()}
               </div>
-              <p className="text-xs">Please ensure the Eliza server is running and accessible.</p>
+              <p className="text-xs">Please ensure the Ada server is running and accessible.</p>
               {!isUnauthorized && (
                 <p className="text-xs">Try refreshing the connection or check server logs.</p>
               )}
               {isUnauthorized && (
                 <p className="text-xs">
-                  Check the X-API-KEY configured in your client or the ELIZA_SERVER_AUTH_TOKEN on
+                  Check the X-API-KEY configured in your client or the ADA_SERVER_AUTH_TOKEN on
                   the server.
                 </p>
               )}
