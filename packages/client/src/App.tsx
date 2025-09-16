@@ -26,6 +26,7 @@ import useVersion from './hooks/use-version';
 import './index.css';
 import { createElizaClient } from './lib/api-client-config';
 import Chat from './routes/chat';
+import SplashScreen from './components/SplashScreen';
 import AgentCreatorRoute from './routes/createAgent';
 import Home from './routes/home';
 import NotFound from './routes/not-found';
@@ -90,11 +91,15 @@ function AppContent() {
   const { status } = useConnection();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [homeKey, setHomeKey] = useState(Date.now());
+  const [showSplash, setShowSplash] = useState(true);
   const queryClient = useQueryClient();
 
   useEffect(() => {
     clientLogger.info('[AppContent] Mounted/Updated');
     prefetchInitialData();
+    // Show splash for 1.5s minimum
+    const timer = setTimeout(() => setShowSplash(false), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   const refreshHomePage = () => {
@@ -107,6 +112,10 @@ function AppContent() {
     queryClient.invalidateQueries({ queryKey: ['agents'] });
     queryClient.invalidateQueries({ queryKey: ['servers'] });
   };
+
+  if (showSplash) {
+    return <SplashScreen />;
+  }
 
   return (
     <TooltipProvider delayDuration={0}>
